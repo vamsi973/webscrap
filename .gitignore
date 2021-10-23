@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+images/*
+docs/*
+node_modules/*
+package-lock.json
+.idea

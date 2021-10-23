@@ -1,0 +1,28 @@
+{
+  "name": "webscrap",
+  "version": "1.0.0",
+  "description": "web scraping project ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vamsi973/webscrap.git"
+  },
+  "keywords": [
+    "webscrap"
+  ],
+  "author": "vamsikrishna",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vamsi973/webscrap/issues"
+  },
+  "homepage": "https://github.com/vamsi973/webscrap#readme",
+  "dependencies": {
+    "axios": "^0.23.0",
+    "cheerio": "^1.0.0-rc.10",
+    "express": "^4.17.1"
+  }
+}
