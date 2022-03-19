@@ -1,80 +1,10 @@
-const axios = require('axios')
-const express = require('express')
-const cheerio = require('cheerio');
-let app = express();
-var fs = require('fs');
-var http = require("http");
+const puppeteer = require('puppeteer');
 
-let urlsList = [
-    // "https://printo.in/categories/corporate-gifting",
-    // "https://printo.in/categories/photo-gifts",
-    // "https://printo.in/categories/wall-decor",
-    // "https://printo.in/categories/t-shirts",
-    // "https://printo.in/categories/caps",
-    // "https://printo.in/categories/stationery",
-    // "https://printo.in/categories/marketing",
-    // "https://printo.in/categories/packaging-materials",
-    // "https://printo.in/categories/same-day-products",
-    // "https://printo.in/categories/awards",
-    // "https://printo.in/categories/design-services"
-];
-async function getUser() {
-    try {
-        if(!urlsList.length){
-            return
-        }
-        urlsList.forEach(async (urlbyinput) => {
-            const response = await axios.get(urlbyinput);
-            const length = fs.readdirSync('./images').length || 0;
-            console.log(length);
-            const html = response.data;
-            const $ = cheerio.load(html);
-            let imgurl = [];
-            $('.next-image-container').each(async (i, elem) => {
-                let url = elem.children[0].children[0].children[0].data.split('srcSet=')[1].split(',')[0].split(' ')[0];
-                imgurl.push(url);
-            })
-            let uniqueUrlsList = [...new Set(imgurl)];
-            uniqueUrlsList.forEach(async (url, i) => {
-                (async () => {
-                    console.log(url);
-                    let findextension = url.split('.');
-                    let extension = findextension[findextension.length - 1];
-                    let count = i + length;
-                    await download(url, `./images/example${count}.${extension}`);
-                })();
-            })
-            fs.writeFileSync('./docs/downloadedurl.text',uniqueUrlsList,()=>{
-                console.log('Saved!');
-            })
-
-        })
-
-    } catch (error) {
-        console.error(error);
-    }
-}
-getUser();
-
-app.listen(3000, () => {
-    console.log('server is running on port 3000');
-})
-
-
-var download = function (urlPath, dest, cb) {
-    try {
-        let url = urlPath.split('"')[1].trim();
-        url = url.replace("https://", 'http://');
-        var file = fs.createWriteStream(dest);
-        console.log("second",dest)
-        http.get(url, function (response) {
-            response.pipe(file);
-            file.on('finish', function () {
-                file.close(cb);
-            });
-        });
-    } catch (error) {
-        console.log(error);
-    }
-
-}
+(async () => {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+ let add= await page.goto('https://google.com');
+ 
+  await page.screenshot({ path: 'example.png' });
+  await browser.close();
+})();
